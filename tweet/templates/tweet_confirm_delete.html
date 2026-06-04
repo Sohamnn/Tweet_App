@@ -1,0 +1,17 @@
+{% extends 'layouts.html'%}
+
+{% block title%}
+ Tweet
+{% endblock %}
+
+{% block content%}
+
+<h1>This is the tweet conform delete page</h1>
+<h1>Are you sure you want to delete the tweet</h1>
+<form method="POST">
+    {% csrf_token %}
+    <button class="btn btn-success">Yes</button>
+    <a href="{% url 'tweet_list'%}" class="btn btn-danger">No</a>
+</form>
+
+{% endblock %}
