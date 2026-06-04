@@ -4,6 +4,7 @@ from .forms import Tweetform, UserRegistrationForm
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
+from django.db.models import Q
 
 # Create your views here.
 def index(request):
@@ -11,7 +12,14 @@ def index(request):
 
 
 def tweet_list(request):
+    query = request.GET.get('q')
     tweets = Tweet.objects.all().order_by('-created_at')
+
+    if query:
+        tweets = Tweet.objects.filter(
+            Q(text__icontains=query) |
+            Q(user__username__icontains=query)
+        )
     return render(request, 'tweet_list.html', {'tweets': tweets })
 
 @login_required
